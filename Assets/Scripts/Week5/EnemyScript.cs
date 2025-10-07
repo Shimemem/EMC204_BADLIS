@@ -1,23 +1,22 @@
+using TMPro;
 using UnityEngine;
 
 
 public class EnemyScript : MonoBehaviour
 {
+    public Vector3 movementDirection = Vector3.forward;
+    public float distance, speed;
 
-    private Vector3 positionTo, positionStart;
-    public float _time;
+    private Vector3 _startPos;
 
-    private void Start()
+    void Start()
     {
-        float randomDistance = Random.Range(-10f, 10f);
-        positionTo = new Vector3 (randomDistance, 0, randomDistance);
-        positionStart = transform.position;
+        _startPos = transform.position;
     }
 
-    private void Update()
+    void Update()
     {
-        _time += Time.deltaTime;
-        transform.position = Vector3.Lerp(positionStart, positionStart + positionTo, Mathf.PingPong(_time, 1));
+        float pingPong = Mathf.PingPong(Time.time * speed, distance);
+        transform.position = _startPos + movementDirection.normalized * pingPong;
     }
-
 }
